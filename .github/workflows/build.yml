@@ -23,15 +23,15 @@ jobs:
       - name: run make
         run: make
 
-      - name: Zip ${{ github.repository }}
-        run: zip -r ${{ github.repository }}_linux-${{ matrix.arch.name }}.zip ${{ github.repository }}
+      - name: Zip ${GITHUB_REPOSITORY#*/}
+        run: zip -r ${GITHUB_REPOSITORY#*/}_linux-${{ matrix.arch.name }}.zip ${GITHUB_REPOSITORY#*/}
 
       - name: Update latest release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload latest \
-            ${{ github.repository }}_linux-${{ matrix.arch.name }}.zip \
+            ${GITHUB_REPOSITORY#*/}_linux-${{ matrix.arch.name }}.zip \
             --clobber -R ${{ github.repository }}
 
           gh release edit latest \
